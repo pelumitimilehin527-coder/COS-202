@@ -1,0 +1,148 @@
+from tkinter import *
+from tkinter import messagebox
+
+# ===========================
+# PERSONAL POCKET CGPA CALCULATOR
+# ===========================
+
+root = Tk()
+root.title("Personal Pocket CGPA Calculator")
+root.geometry("450x450")
+root.resizable(False, False)
+root.configure(bg="lightblue")
+
+
+# Function to calculate CGPA
+def calculate():
+
+    try:
+        total_grade_points = float(entry_gp.get())
+        total_credit_units = float(entry_cu.get())
+
+        if total_credit_units <= 0:
+            messagebox.showerror("Error", "Credit Units must be greater than zero.")
+            return
+
+        cgpa = total_grade_points / total_credit_units
+
+        lbl_cgpa.config(text=f"CGPA: {cgpa:.2f}")
+
+        # Classification
+        if cgpa >= 4.50:
+            classification = "First Class"
+        elif cgpa >= 3.50:
+            classification = "Second Class Upper"
+        elif cgpa >= 2.40:
+            classification = "Second Class Lower"
+        elif cgpa >= 1.50:
+            classification = "Third Class"
+        elif cgpa >= 1.00:
+            classification = "Pass"
+        else:
+            classification = "Fail"
+
+        lbl_class.config(text=f"Class of Degree: {classification}")
+
+    except ValueError:
+        messagebox.showerror("Error", "Please enter valid numbers.")
+
+
+# Function to clear inputs
+def clear():
+
+    entry_gp.delete(0, END)
+    entry_cu.delete(0, END)
+
+    lbl_cgpa.config(text="CGPA:")
+    lbl_class.config(text="Class of Degree:")
+
+
+# Function to exit
+def exit_program():
+
+    answer = messagebox.askyesno(
+        "Exit",
+        "Do you want to close the CGPA Calculator?"
+    )
+
+    if answer:
+        root.destroy()
+
+
+# ===========================
+# GUI Components
+# ===========================
+
+Label(
+    root,
+    text="PERSONAL POCKET CGPA CALCULATOR",
+    font=("Arial", 16, "bold"),
+    bg="lightblue"
+).pack(pady=20)
+
+Label(
+    root,
+    text="Total Grade Points",
+    font=("Arial", 12),
+    bg="lightblue"
+).pack()
+
+entry_gp = Entry(root, font=("Arial", 14), width=20)
+entry_gp.pack(pady=5)
+
+Label(
+    root,
+    text="Total Credit Units",
+    font=("Arial", 12),
+    bg="lightblue"
+).pack()
+
+entry_cu = Entry(root, font=("Arial", 14), width=20)
+entry_cu.pack(pady=5)
+
+Button(
+    root,
+    text="CALCULATE",
+    font=("Arial", 12, "bold"),
+    bg="green",
+    fg="white",
+    width=15,
+    command=calculate
+).pack(pady=15)
+
+Button(
+    root,
+    text="CLEAR",
+    font=("Arial", 12, "bold"),
+    bg="orange",
+    width=15,
+    command=clear
+).pack(pady=5)
+
+Button(
+    root,
+    text="EXIT",
+    font=("Arial", 12, "bold"),
+    bg="red",
+    fg="white",
+    width=15,
+    command=exit_program
+).pack(pady=5)
+
+lbl_cgpa = Label(
+    root,
+    text="CGPA:",
+    font=("Arial", 14, "bold"),
+    bg="lightblue"
+)
+lbl_cgpa.pack(pady=15)
+
+lbl_class = Label(
+    root,
+    text="Class of Degree:",
+    font=("Arial", 14, "bold"),
+    bg="lightblue"
+)
+lbl_class.pack()
+
+root.mainloop()
